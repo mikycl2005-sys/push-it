@@ -1,0 +1,34 @@
+#!/bin/bash
+# ==============================================
+# 📦 push-to-github.sh
+# Script automatico per creare il repository GitHub e caricarvi l'app PhotoEnhancer
+# Requisiti: git + GitHub CLI installati e autenticati (gh auth login)
+# ==============================================
+
+# Nome del repository
+REPO_NAME="photoenhancer-app"
+DESCRIPTION="PhotoEnhancer - App FastAPI + React (tema verde, migliorata con JWT, CRUD, e proxy fal.ai)"
+PRIVATE=false  # imposta a true se vuoi un repo privato
+
+echo "🔧 Inizializzo il repository Git locale..."
+git init -q
+
+echo "📂 Aggiungo tutti i file al commit iniziale..."
+git add .
+
+echo "📝 Creo il commit iniziale..."
+git commit -m "Initial commit - PhotoEnhancer improved version" -q
+
+echo "🌐 Creo il repository GitHub remoto..."
+gh repo create "$REPO_NAME" \
+  --description "$DESCRIPTION" \
+  --public \
+  --source=. \
+  --remote=origin \
+  --push
+
+echo ""
+echo "✅ Repository creato e caricato con successo!"
+echo "👉 Link GitHub: https://github.com/$(gh api user --jq .login)/$REPO_NAME"
+echo ""
+echo "Ora puoi collegarlo facilmente a Render o Railway per il deploy automatico."
